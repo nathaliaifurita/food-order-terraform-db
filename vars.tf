@@ -3,7 +3,7 @@ variable "regionDefault" {
 }
 
 variable "projectName" {
-  default = "EKS-FOOD-ORDER"
+  default = "EKS-FOOD-ORDER-DB"
 }
 
 variable "labRole" {
@@ -15,7 +15,7 @@ variable "accessConfig" {
 }
 
 variable "nodeGroup" {
-  default = "food-order-node-group"
+  default = "food-order-db-node-group"
 }
 
 variable "instanceType" {

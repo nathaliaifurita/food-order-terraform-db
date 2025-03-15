@@ -1,6 +1,6 @@
 resource "aws_security_group" "sg" {
   name        = "SG-${var.projectName}"
-  description = "Security Group do Food Order"
+  description = "Security Group do Food Order DB"
   vpc_id      = ""
 
   # Inbound
