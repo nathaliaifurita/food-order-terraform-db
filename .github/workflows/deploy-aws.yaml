@@ -1,4 +1,4 @@
-name: Deploy AWS Production - NETT
+name: Deploy AWS Production - FOOD-ORDER-DATABASE
 
 on:
   push:
