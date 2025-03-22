@@ -15,7 +15,7 @@ variable "instanceType" {
 }
 
 variable "rds_arn" {
-  default = "arn:aws:rds:us-east-1:340103052246::db:rdsName"
+  default = "arn:aws:rds:us-east-1:198212171636::db:rdsName"
 }
 
 variable "policyArn" {
