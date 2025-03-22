@@ -1,7 +1,7 @@
 resource "aws_db_instance" "rds_postgres" {
   identifier             = var.rdsName
   engine                 = "postgres"
-  engine_version         = "15.2"
+  engine_version         = "15.4"
   instance_class         = var.instanceType
   allocated_storage      = 20
   max_allocated_storage  = 100
@@ -13,8 +13,8 @@ resource "aws_db_instance" "rds_postgres" {
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids = [aws_security_group.sg.id]
 
-  username               = "admin"
-  password               = "mypassword"
+  username               = secrets.POSTGRES_USER
+  password               = secrets.POSTGRES_PASSWORD
 
   monitoring_interval    = 60  # Habilita monitoramento a cada 60s
   performance_insights_enabled = true
