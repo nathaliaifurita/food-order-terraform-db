@@ -8,7 +8,6 @@ resource "aws_security_group" "sg" {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [aws_security_group.sg.id]  # Permite acesso apenas do EKS
   }
 
   # Outbound
