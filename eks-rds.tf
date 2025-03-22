@@ -11,7 +11,7 @@ resource "aws_db_instance" "rds_postgres" {
   deletion_protection     = false # Impede deleção acidental
 
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
-  vpc_security_group_ids = [aws_security_group.rds_sg.id]
+  vpc_security_group_ids = [aws_security_group.sg.id]
 
   username               = "admin"
   password               = "mypassword"
