@@ -2,8 +2,8 @@ variable "regionDefault" {
   default = "us-east-1"
 }
 
-variable "projectName" {
-  default = "EKS-FOOD-ORDER-DB"
+variable "eks-cluster"{
+    default = "EKS-FOOD-ORDER-CLUSTER"
 }
 
 variable "rdsName" {

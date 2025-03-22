@@ -1,14 +1,14 @@
 resource "aws_security_group" "rds_sg" {
-  name        = "rds-SG-${var.projectName}"
+  name        = "rds-SG-${var.eks-cluster}"
   description = "Security Group do Food Order DB"
-  vpc_id      = aws_vpc.main.id
+  vpc_id      = aws_vpc.main_vpc.id
 
   # Inbound
   ingress {
     from_port       = 5432
     to_port         = 5432
     protocol        = "tcp"
-    security_groups = [aws_security_group.eks_sg.id]  # Permite acesso apenas do EKS
+    security_groups = [aws_security_group.rds_sg.id]  # Permite acesso apenas do EKS
   }
 
   # Outbound
