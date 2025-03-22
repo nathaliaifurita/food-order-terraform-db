@@ -1,20 +1,18 @@
-resource "aws_security_group" "sg" {
-  name        = "SG-${var.projectName}"
+resource "aws_security_group" "rds_sg" {
+  name        = "rds-SG-${var.projectName}"
   description = "Security Group do Food Order DB"
-  vpc_id      = ""
+  vpc_id      = aws_vpc.main.id
 
   # Inbound
   ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.eks_sg.id]  # Permite acesso apenas do EKS
   }
 
   # Outbound
   egress {
-    description = "All"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

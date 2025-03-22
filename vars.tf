@@ -6,24 +6,16 @@ variable "projectName" {
   default = "EKS-FOOD-ORDER-DB"
 }
 
-variable "labRole" {
-  default = "arn:aws:iam::340103052246:role/LabRole"
-}
-
-variable "accessConfig" {
-  default = "API_AND_CONFIG_MAP"
-}
-
-variable "nodeGroup" {
-  default = "food-order-db-node-group"
+variable "rdsName" {
+  default = "RDS-POSTGRES"
 }
 
 variable "instanceType" {
-  default = "t3.medium"
+  default = "db.t3.medium"
 }
 
-variable "principalArn" {
-  default = "arn:aws:iam::340103052246:role/voclabs"
+variable "rds_arn" {
+  default = "arn:aws:rds:us-east-1:340103052246::db:rdsName"
 }
 
 variable "policyArn" {

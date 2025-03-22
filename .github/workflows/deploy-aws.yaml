@@ -8,6 +8,7 @@ on:
 env:
   AWS_REGION: us-east-1
   CLUSTER_NAME: EKS-FOOD-ORDER-DB-CLUSTER
+  RDS_INSTANCE: food-order-db
 
 jobs:
   deploy-production:
@@ -24,15 +25,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
-      
-      - name: Login ECR
-        run: |
-          aws ecr get-login-password \
-          --region ${{ env.AWS_REGION }} | \
-          docker login --username AWS \
-          --password-stdin \
-          759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com \
-          aws configure
 
       - name: BuildAndPush Dockerfile
         run: |
@@ -43,12 +35,30 @@ jobs:
       - name: Update Kube Config
         run: |
           aws eks update-kubeconfig \
-          --name ${{ env.CLUSTER_NAME }} \
           --region ${{ env.AWS_REGION }}
+
+      - name: Get RDS Endpoint
+        id: rds
+        run: |
+          ENDPOINT=$(aws rds describe-db-instances \
+            --db-instance-identifier ${{ env.RDS_INSTANCE }} \
+            --query "DBInstances[0].Endpoint.Address" \
+            --output text)
+          
+          echo "RDS_ENDPOINT=${ENDPOINT}" >> $GITHUB_ENV
+
+      - name: Create Kubernetes Secret with RDS Credentials
+        run: |
+          POSTGRES_DB=${{ secrets.AWS_ACCESS_KEY_ID }}
+          DB_USER=${{ secrets.AWS_ACCESS_KEY_ID }}
+          DB_PASS=$${{ secrets.AWS_ACCESS_KEY_ID }}
       
       - name: Kube Apply
         run: |
-          kubectl apply -f k8s/postgres-pod.yaml
-          kubectl apply -f k8s/postgres-service.yaml
           kubectl apply -f k8s/postgres-deployment.yaml
+<<<<<<< Updated upstream
+=======
+          kubectl apply -f k8s/postgres-service.yaml
+          kubectl rollout status deployment app-deployment -n ${{ env.NAMESPACE }}
+>>>>>>> Stashed changes
 

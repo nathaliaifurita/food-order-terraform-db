@@ -7,3 +7,4 @@ resource "aws_eks_access_policy_association" "eks-access-policy" {
     type = "cluster"
   }
 }
+
