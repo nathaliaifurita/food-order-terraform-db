@@ -3,11 +3,11 @@ variable "regionDefault" {
 }
 
 variable "rds_postgres"{
-    default = "EKS-RDS-POSTGRES"
+    default = "eks-rds-postgres"
 }
 
 variable "rdsName" {
-  default = "RDS-POSTGRES"
+  default = "rds-postgres"
 }
 
 variable "instanceType" {
