@@ -2,8 +2,8 @@ variable "regionDefault" {
   default = "us-east-1"
 }
 
-variable "eks-cluster"{
-    default = "EKS-FOOD-ORDER-CLUSTER"
+variable "rds_postgres"{
+    default = "EKS-RDS-POSTGRES"
 }
 
 variable "rdsName" {
