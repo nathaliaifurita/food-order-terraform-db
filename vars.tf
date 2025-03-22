@@ -25,3 +25,11 @@ variable "rds_arn" {
 variable "policyArn" {
   default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
+
+variable "username"{
+  default = "postgres"
+}
+
+variable "password"{
+  default = "postgres"
+}
