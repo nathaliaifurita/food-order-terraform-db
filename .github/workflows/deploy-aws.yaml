@@ -50,9 +50,9 @@ jobs:
 
       - name: Create Kubernetes Secret with RDS Credentials
         run: |
-          POSTGRES_DB=${{ secrets.AWS_ACCESS_KEY_ID }}
-          DB_USER=${{ secrets.AWS_ACCESS_KEY_ID }}
-          DB_PASS=$${{ secrets.AWS_ACCESS_KEY_ID }}
+          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
       
       - name: Kube Apply
         run: |
