@@ -57,9 +57,4 @@ jobs:
       - name: Kube Apply
         run: |
           kubectl apply -f k8s/postgres-deployment.yaml
-<<<<<<< Updated upstream
-=======
           kubectl apply -f k8s/postgres-service.yaml
-          kubectl rollout status deployment app-deployment -n ${{ env.NAMESPACE }}
->>>>>>> Stashed changes
-
