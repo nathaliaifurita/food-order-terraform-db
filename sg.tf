@@ -1,5 +1,5 @@
 resource "aws_security_group" "rds_sg" {
-  name        = "rds-SG-${var.eks-cluster}"
+  name        = "SG-${var.rds_postgres}"
   description = "Security Group do Food Order DB"
   vpc_id      = aws_vpc.main_vpc.id
 

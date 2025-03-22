@@ -10,8 +10,9 @@ resource "aws_vpc" "main_vpc" {
 resource "aws_subnet" "public_subnets" {
   count = 2
   vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = cidrsubnet("172.31.0.0/16", 4, count.index + 2)
+  cidr_block        = cidrsubnet(aws_vpc.main_vpc.cidr_block, 4, count.index + 2)
   availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
+  map_public_ip_on_launch = true
 
   tags = {
     Name        = "Public Subnet ${count.index + 1}"
@@ -22,7 +23,7 @@ resource "aws_subnet" "public_subnets" {
 resource "aws_subnet" "private_subnets" {
   count = 2
   vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = cidrsubnet("172.31.0.0/16", 4, count.index)
+  cidr_block        = cidrsubnet(aws_vpc.main_vpc.cidr_block, 4, count.index)
   availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
 
   tags = {
@@ -33,9 +34,10 @@ resource "aws_subnet" "private_subnets" {
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-subnet-group"
-  subnet_ids = [aws_subnet.private_1.id, aws_subnet.private_2.id]
+  subnet_ids = aws_subnet.private_subnets[*].id
 
   tags = {
-    Name = "RDS subnet group"
+    Name        = "RDS Subnet Group"
+    Environment = "production"
   }
 }
