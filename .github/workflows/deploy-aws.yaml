@@ -51,4 +51,5 @@ jobs:
           kubectl apply -f k8s/postgres-pod.yaml
           kubectl apply -f k8s/postgres-service.yaml
           kubectl apply -f k8s/postgres-deployment.yaml
+          kubectl get svc postgres-service
 
