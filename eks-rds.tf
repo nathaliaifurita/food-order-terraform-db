@@ -15,7 +15,7 @@ resource "aws_db_instance" "rds_postgres" {
   username               = var.username
   password               = var.password
 
-  monitoring_interval    = 60  # Habilita monitoramento a cada 60s
+  monitoring_interval    = 0 # Desativa o Monitoring
   performance_insights_enabled = true
 
   publicly_accessible    = false # Mantém o RDS privado
