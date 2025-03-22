@@ -1,20 +1,17 @@
 resource "aws_security_group" "sg" {
-  name        = "SG-${var.projectName}"
+  name        = "SG-${var.rds_postgres}"
   description = "Security Group do Food Order DB"
-  vpc_id      = ""
+  vpc_id      = aws_vpc.main_vpc.id
 
   # Inbound
   ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
   }
 
   # Outbound
   egress {
-    description = "All"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"

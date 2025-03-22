@@ -1,15 +1,43 @@
-data "aws_vpc" "vpc" {
+resource "aws_vpc" "main_vpc" {
   cidr_block = "172.31.0.0/16"
+
+  tags = {
+    Name        = "Main VPC"
+    Environment = "production"
+  }
 }
 
-data "aws_subnets" "subnets"{
-    filter {
-        name = "vpc-id"
-        values = [data.aws_vpc.vpc.id]
-    }
+resource "aws_subnet" "public_subnets" {
+  count = 2
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = cidrsubnet(aws_vpc.main_vpc.cidr_block, 4, count.index + 2)
+  availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name        = "Public Subnet ${count.index + 1}"
+    Environment = "public"
+  }
 }
 
-data "aws_subnet" "subnet" {
-  for_each = toset(data.aws_subnets.subnets.ids)
-  id       = each.value
+resource "aws_subnet" "private_subnets" {
+  count = 2
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = cidrsubnet(aws_vpc.main_vpc.cidr_block, 4, count.index)
+  availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
+
+  tags = {
+    Name        = "Private Subnet ${count.index + 1}"
+    Environment = "private"
+  }
+}
+
+resource "aws_db_subnet_group" "rds_subnet_group" {
+  name       = "rds-subnet-group"
+  subnet_ids = aws_subnet.private_subnets[*].id
+
+  tags = {
+    Name        = "RDS Subnet Group"
+    Environment = "production"
+  }
 }

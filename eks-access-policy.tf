@@ -1,5 +1,5 @@
 resource "aws_eks_access_policy_association" "eks-access-policy" {
-  cluster_name  = aws_eks_cluster.eks-cluster.name
+  cluster_name  = aws_db_instance.rds_postgres.identifier
   policy_arn    = var.policyArn
   principal_arn = var.principalArn
 
@@ -7,3 +7,4 @@ resource "aws_eks_access_policy_association" "eks-access-policy" {
     type = "cluster"
   }
 }
+
