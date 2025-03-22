@@ -1,7 +1,6 @@
 resource "aws_db_instance" "rds_postgres" {
   identifier             = var.rdsName
   engine                 = "postgres"
-  engine_version         = "15.4"
   instance_class         = var.instanceType
   allocated_storage      = 20
   max_allocated_storage  = 100
