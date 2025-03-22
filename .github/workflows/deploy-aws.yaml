@@ -35,6 +35,7 @@ jobs:
       - name: Update Kube Config
         run: |
           aws eks update-kubeconfig \
+          --name ${{ env.CLUSTER_NAME }} \
           --region ${{ env.AWS_REGION }}
 
       - name: Get RDS Endpoint
