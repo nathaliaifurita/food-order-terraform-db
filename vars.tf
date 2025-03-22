@@ -14,6 +14,10 @@ variable "instanceType" {
   default = "db.t3.medium"
 }
 
+variable "principalArn" {
+  default = "arn:aws:iam::198212171636:role/voclabs"
+}
+
 variable "rds_arn" {
   default = "arn:aws:rds:us-east-1:198212171636::db:rdsName"
 }
