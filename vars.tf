@@ -30,10 +30,6 @@ variable "principalArn" {
   default = "arn:aws:iam::340103052246:role/voclabs"
 }
 
-variable "rds_arn" {
-  default = "arn:aws:rds:us-east-1:340103052246::db:rdsName"
-}
-
 variable "policyArn" {
   default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
