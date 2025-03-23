@@ -8,4 +8,8 @@ resource "aws_eks_cluster" "eks_cluster" {
       aws_subnet.private_subnets[1].id
     ]
   }
+
+  access_config {
+    authentication_mode = var.accessConfig
+  }
 }
