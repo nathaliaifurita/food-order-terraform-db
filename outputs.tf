@@ -9,3 +9,11 @@ output "rds_port" {
 output "database_name" {
   value = aws_db_instance.rds_postgres.db_name
 }
+
+output "vpc_id" {
+  value = local.vpc_id
+}
+
+output "security_group_id" {
+  value = aws_security_group.sg.id
+}
