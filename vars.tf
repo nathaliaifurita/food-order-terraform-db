@@ -47,3 +47,21 @@ variable "create_vpc" {
   type        = bool
   default     = false  // Por padrão, tenta usar uma VPC existente
 }
+
+variable "db_username" {
+  description = "Username for the RDS PostgreSQL instance"
+  type        = string
+  default     = "postgres"  // você pode mudar isso
+}
+
+variable "db_password" {
+  description = "Password for the RDS PostgreSQL instance"
+  type        = string
+  sensitive   = true  // isso marca a variável como sensível
+}
+
+variable "db_name" {
+  description = "Name of the database to create"
+  type        = string
+  default     = "foodorderdb"
+}
