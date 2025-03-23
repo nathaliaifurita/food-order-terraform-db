@@ -10,7 +10,7 @@ variable "rdsName" {
   default = "food-order-db"
 }
 
-variable "eks_cluster"{
+variable "projectName"{
   default = "eks-food-order-db"
 }
 
