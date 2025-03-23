@@ -2,6 +2,10 @@ variable "regionDefault" {
   default = "us-east-1"
 }
 
+variable "projectName" {
+  default = "EKS-FOOD-ORDER-DB"
+}
+
 variable "rds_postgres"{
     default = "eks-rds-postgres"
 }
@@ -10,8 +14,8 @@ variable "rdsName" {
   default = "food-order-db"
 }
 
-variable "projectName"{
-  default = "eks-food-order-db"
+variable "eks_cluster"{
+  default = "EKS-FOOD-ORDER-DB"
 }
 
 variable "labRole" {
