@@ -58,6 +58,7 @@ variable "db_password" {
   description = "Password for the RDS PostgreSQL instance"
   type        = string
   sensitive   = true  // isso marca a variável como sensível
+  default     = "postgres"
 }
 
 variable "db_name" {
