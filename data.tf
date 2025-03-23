@@ -35,9 +35,9 @@ data "aws_subnets" "subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  count = 2
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = cidrsubnet(aws_vpc.main_vpc.cidr_block, 4, count.index)
+  count             = 2
+  vpc_id            = local.vpc_id
+  cidr_block        = var.create_vpc ? cidrsubnet(aws_vpc.main_vpc[0].cidr_block, 4, count.index) : cidrsubnet("172.31.0.0/16", 4, count.index)
   availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
 
   tags = {
