@@ -26,6 +26,15 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Login ECR
+        run: |
+          aws ecr get-login-password \
+          --region ${{ env.AWS_REGION }} | \
+          docker login --username AWS \
+          --password-stdin \
+          759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com \
+          aws configure
+
       - name: BuildAndPush Dockerfile
         run: |
           docker build -t postgres . && \
