@@ -28,7 +28,6 @@ resource "aws_security_group" "sg" {
     self        = true
   }
 
-  # Permitir comunicação do Load Balancer com os nodes
   ingress {
     description = "Allow LB to nodes communication"
     from_port   = 80
