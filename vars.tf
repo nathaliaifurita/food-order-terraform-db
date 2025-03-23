@@ -7,7 +7,7 @@ variable "rds_postgres"{
 }
 
 variable "rdsName" {
-  default = "rds-postgres"
+  default = "food-order-db"
 }
 
 variable "instanceType" {
