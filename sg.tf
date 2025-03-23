@@ -12,16 +12,14 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["172.31.0.0/16"]  # CIDR block da VPC
   }
 
-  # Permitir acesso ao PostgreSQL do EKS
   ingress {
-    description = "PostgreSQL from EKS"
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    self        = true
+    description     = "PostgreSQL from EKS"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    cidr_blocks     = ["172.31.0.0/16"]
   }
 
-  # Permitir comunicação entre nodes do EKS
   ingress {
     description = "Allow nodes to communicate with each other"
     from_port   = 0
