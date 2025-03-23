@@ -34,10 +34,6 @@ variable "policyArn" {
   default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
 
-variable "username"{
-  default = "postgres"
-}
-
-variable "password"{
-  default = "postgres"
+variable "accessConfig" {
+  default = "API_AND_CONFIG_MAP"
 }
