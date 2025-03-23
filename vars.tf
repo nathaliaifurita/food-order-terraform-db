@@ -7,7 +7,15 @@ variable "rds_postgres"{
 }
 
 variable "rdsName" {
-  default = "rds-postgres"
+  default = "food-order-db"
+}
+
+variable "eks_cluster"{
+  default = "eks-food-order-db"
+}
+
+variable "labRole" {
+  default = "arn:aws:iam::198212171636:role/LabRole"
 }
 
 variable "instanceType" {
