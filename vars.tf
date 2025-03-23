@@ -10,6 +10,10 @@ variable "rdsName" {
   default = "food-order-db"
 }
 
+variable "eks_cluster"{
+  default = "eks-food-order-db"
+}
+
 variable "labRole" {
   default = "arn:aws:iam::198212171636:role/LabRole"
 }
