@@ -1,4 +1,20 @@
+data "aws_vpc" "existing_vpc" {
+  count = var.create_vpc ? 0 : 1  // Só busca se não formos criar uma nova
+
+  filter {
+    name   = "cidr-block"
+    values = ["172.31.0.0/16"]
+  }
+  
+  filter {
+    name   = "tag:Name"
+    values = ["Main VPC"]
+  }
+}
+
 resource "aws_vpc" "main_vpc" {
+  count = var.create_vpc ? 1 : 0  // Só cria se a variável for true
+
   cidr_block = "172.31.0.0/16"
 
   tags = {
@@ -7,16 +23,14 @@ resource "aws_vpc" "main_vpc" {
   }
 }
 
-resource "aws_subnet" "public_subnets" {
-  count = 2
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = cidrsubnet(aws_vpc.main_vpc.cidr_block, 4, count.index + 2)
-  availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
-  map_public_ip_on_launch = true
+locals {
+  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : data.aws_vpc.existing_vpc[0].id
+}
 
-  tags = {
-    Name        = "Public Subnet ${count.index + 1}"
-    Environment = "public"
+data "aws_subnets" "subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
   }
 }
 

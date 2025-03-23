@@ -41,3 +41,9 @@ variable "policyArn" {
 variable "accessConfig" {
   default = "API_AND_CONFIG_MAP"
 }
+
+variable "create_vpc" {
+  description = "Whether to create a new VPC or use an existing one"
+  type        = bool
+  default     = false  // Por padrão, tenta usar uma VPC existente
+}
