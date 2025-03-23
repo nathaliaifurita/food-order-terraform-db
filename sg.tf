@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg" {
   name        = "SG-${var.rds_postgres}"
   description = "Security Group do Food Order DB"
-  vpc_id      = aws_vpc.main_vpc.id
+  vpc_id = local.vpc_id
 
   # Inbound
   ingress {
