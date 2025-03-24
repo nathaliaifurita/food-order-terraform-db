@@ -27,12 +27,17 @@ jobs:
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
 
       - name: Terraform Init
-        run: terraform init
+        run: terraform init -backend=true
+
+      - name: Terraform Validate
+        run: terraform validate
 
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
