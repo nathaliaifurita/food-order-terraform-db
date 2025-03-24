@@ -1,4 +1,4 @@
-name: Deploy AWS Production - FOOD-ORDER-DATABASE
+name: Deploy AWS Production - FOOD-ORDER-DB
 
 on:
   push:
