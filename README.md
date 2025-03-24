@@ -11,3 +11,13 @@
 6. Colar o código ARN no arquivo: vars.rf
     - principalArn
     - labRole
+
+# 🚀 Deploy de Infraestrutura AWS com Terraform e GitHub Actions
+
+## 📌 Tecnologias
+- Terraform
+- AWS (EKS, RDS, IAM)
+- GitHub Actions
+
+## 📁 Estrutura
+.github/workflows/ ├── terraform.yml # Infra AWS (Terraform) ├── deploy.yml # Deploy app (GitHub Actions) terraform/ ├── eks-rds.tf # Configuração principal ├── vars.tf # Variáveis ├── provider.tf # Provider AWS ├── outputs.tf # Saídas do Terraform
