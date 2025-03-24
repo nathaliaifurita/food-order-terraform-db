@@ -42,6 +42,7 @@ variable "accessConfig" {
   default = "API_AND_CONFIG_MAP"
 }
 
+
 variable "db_name" {
   description = "Nome do banco de dados"
   type        = string
