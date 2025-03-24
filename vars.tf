@@ -19,7 +19,7 @@ variable "eks_cluster"{
 }
 
 variable "labRole" {
-  default = "arn:aws:iam::198212171636:role/LabRole"
+  default = "arn:aws:iam::340103052246:role/LabRole"
 }
 
 variable "instanceType" {
@@ -27,7 +27,7 @@ variable "instanceType" {
 }
 
 variable "principalArn" {
-  default = "arn:aws:iam::198212171636:role/voclabs"
+  default = "arn:aws:iam::340103052246:role/voclabs"
 }
 
 variable "rds_arn" {
@@ -40,29 +40,4 @@ variable "policyArn" {
 
 variable "accessConfig" {
   default = "API_AND_CONFIG_MAP"
-}
-
-variable "create_vpc" {
-  description = "Whether to create a new VPC or use an existing one"
-  type        = bool
-  default     = false  // Por padrão, tenta usar uma VPC existente
-}
-
-variable "db_username" {
-  description = "Username for the RDS PostgreSQL instance"
-  type        = string
-  default     = "postgres"  // você pode mudar isso
-}
-
-variable "db_password" {
-  description = "Password for the RDS PostgreSQL instance"
-  type        = string
-  sensitive   = true  // isso marca a variável como sensível
-  default     = "postgres"
-}
-
-variable "db_name" {
-  description = "Name of the database to create"
-  type        = string
-  default     = "foodorderdb"
 }
