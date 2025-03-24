@@ -42,6 +42,12 @@ variable "accessConfig" {
   default = "API_AND_CONFIG_MAP"
 }
 
+variable "AWS_SESSION_TOKEN" {
+  description = "Token de sessão da AWS"
+  type        = string
+  default     = ""
+}
+
 variable "db_name" {
   description = "Nome do banco de dados"
   type        = string
