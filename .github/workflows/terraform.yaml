@@ -30,9 +30,9 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
-          # aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          # aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ env.AWS_SESSION_TOKEN }} # Se for um usuário temporário
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          # aws-session-token: ${{ env.AWS_SESSION_TOKEN }} # Se for um usuário temporário
 
       - name: Validate AWS Credentials
         run: aws sts get-caller-identity
