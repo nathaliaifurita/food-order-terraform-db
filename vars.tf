@@ -19,7 +19,7 @@ variable "eks_cluster"{
 }
 
 variable "labRole" {
-  default = "arn:aws:iam::340103052246:role/LabRole"
+  default = "arn:aws:iam::198212171636:role/LabRole"
 }
 
 variable "instanceType" {
@@ -27,11 +27,11 @@ variable "instanceType" {
 }
 
 variable "principalArn" {
-  default = "arn:aws:iam::340103052246:role/voclabs"
+  default = "arn:aws:iam::198212171636:role/voclabs"
 }
 
 variable "rds_arn" {
-  default = "arn:aws:rds:us-east-1:340103052246::db:rdsName"
+  default = "arn:aws:rds:us-east-1:198212171636::db:rdsName"
 }
 
 variable "policyArn" {
