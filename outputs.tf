@@ -17,3 +17,8 @@ output "vpc_id" {
 output "security_group_id" {
   value = aws_security_group.sg.id
 }
+
+output "aws_session_token" {
+  value     = var.labRole.session_token
+  sensitive = true
+}
