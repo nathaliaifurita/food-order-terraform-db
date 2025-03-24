@@ -1,3 +1,10 @@
+// Declaração da variável create_vpc
+variable "create_vpc" {
+  description = "Define se a VPC deve ser criada ou reutilizada"
+  type        = bool
+  default     = false
+}
+
 // Busca VPC existente
 data "aws_vpc" "existing_vpc" {
   count = var.create_vpc ? 0 : 1
@@ -5,11 +12,6 @@ data "aws_vpc" "existing_vpc" {
   filter {
     name   = "cidr-block"
     values = ["172.31.0.0/16"]
-  }
-  
-  filter {
-    name   = "tag:Name"
-    values = ["Main VPC"]
   }
 }
 
@@ -26,7 +28,7 @@ resource "aws_vpc" "main_vpc" {
 }
 
 locals {
-  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : data.aws_vpc.existing_vpc[0].id
+  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : (length(data.aws_vpc.existing_vpc) > 0 ? data.aws_vpc.existing_vpc[0].id : "")
 }
 
 // Busca subnets públicas existentes
@@ -36,11 +38,6 @@ data "aws_subnet" "existing_public_subnets" {
   filter {
     name   = "vpc-id"
     values = [local.vpc_id]
-  }
-
-  filter {
-    name   = "tag:Environment"
-    values = ["public"]
   }
 
   filter {
@@ -75,11 +72,6 @@ data "aws_subnet" "existing_private_subnets" {
   }
 
   filter {
-    name   = "tag:Environment"
-    values = ["private"]
-  }
-
-  filter {
     name   = "availability-zone"
     values = [element(["us-east-1a", "us-east-1b"], count.index)]
   }
@@ -101,8 +93,8 @@ resource "aws_subnet" "private_subnets" {
 }
 
 locals {
-  private_subnet_ids = var.create_vpc ? aws_subnet.private_subnets[*].id : data.aws_subnet.existing_private_subnets[*].id
-  public_subnet_ids  = var.create_vpc ? aws_subnet.public_subnets[*].id : data.aws_subnet.existing_public_subnets[*].id
+  private_subnet_ids = var.create_vpc ? aws_subnet.private_subnets[*].id : (length(data.aws_subnet.existing_private_subnets) > 0 ? data.aws_subnet.existing_private_subnets[*].id : [])
+  public_subnet_ids  = var.create_vpc ? aws_subnet.public_subnets[*].id : (length(data.aws_subnet.existing_public_subnets) > 0 ? data.aws_subnet.existing_public_subnets[*].id : [])
 }
 
 // Grupo de subnets para o RDS
