@@ -1,3 +1,10 @@
+// Declaração da variável create_vpc
+variable "create_vpc" {
+  description = "Define se a VPC deve ser criada ou reutilizada"
+  type        = bool
+  default     = false
+}
+
 // Busca VPC existente
 data "aws_vpc" "existing_vpc" {
   count = var.create_vpc ? 0 : 1
