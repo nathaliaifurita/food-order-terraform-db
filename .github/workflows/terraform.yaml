@@ -1,4 +1,4 @@
-name: Deploy AWS Infra
+name: Deploy AWS Production - FOOD-ORDER-DATABASE
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
 
 env:
   AWS_REGION: us-east-1
+  CLUSTER_NAME: EKS-FOOD-ORDER-DB-CLUSTER
+  RDS_INSTANCE: food-order-db
 
 jobs:
-  deploy-infra:
-    name: Terraform Deploy
+  deploy-production:
+    name: Deploy EKS Food Order Production
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -25,14 +26,35 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Terraform Setup
-        uses: hashicorp/setup-terraform@v3
+      - name: Login ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t postgres .
+          docker tag postgres:latest 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+          docker push 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
 
-      - name: Terraform Plan
-        run: terraform plan -out=tfplan
+      - name: Update Kube Config
+        run: |
+          aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
+      - name: Get RDS Endpoint
+        id: rds
+        run: |
+          ENDPOINT=$(aws rds describe-db-instances --db-instance-identifier ${{ env.RDS_INSTANCE }} --query "DBInstances[0].Endpoint.Address" --output text)
+          echo "RDS_ENDPOINT=${ENDPOINT}" >> $GITHUB_ENV
+
+      - name: Create Kubernetes Secret with RDS Credentials
+        run: |
+          kubectl create secret generic postgres-secret \
+            --from-literal=POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+            --from-literal=POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Apply Kubernetes Configurations
+        run: |
+          kubectl apply -f k8s/postgres-deployment.yaml
+          kubectl apply -f k8s/postgres-service.yaml
