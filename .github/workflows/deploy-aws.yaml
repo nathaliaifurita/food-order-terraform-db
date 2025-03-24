@@ -14,6 +14,9 @@ jobs:
   deploy-production:
     name: Deploy EKS Food Order Production
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -22,30 +25,24 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ID }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login ECR
         run: |
-          aws ecr get-login-password \
-          --region ${{ env.AWS_REGION }} | \
-          docker login --username AWS \
-          --password-stdin \
-          759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com \
-          aws configure
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | \
+          docker login --username AWS --password-stdin 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
 
-      - name: BuildAndPush Dockerfile
+      - name: Build and Push Docker Image
         run: |
-          docker build -t postgres . && \
-          echo "Imagem PostgresSQL construída com sucesso" 
-    
+          docker build -t postgres . 
+          echo "Imagem PostgreSQL construída com sucesso"
 
       - name: Update Kube Config
         run: |
           aws eks update-kubeconfig \
-          --name ${{ env.CLUSTER_NAME }} \
-          --region ${{ env.AWS_REGION }}
+            --name ${{ env.CLUSTER_NAME }} \
+            --region ${{ env.AWS_REGION }}
 
       - name: Get RDS Endpoint
         id: rds
@@ -59,11 +56,14 @@ jobs:
 
       - name: Create Kubernetes Secret with RDS Credentials
         run: |
-          POSTGRES_DB=${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-      
-      - name: Kube Apply
+          kubectl create secret generic postgres-secret \
+            --from-literal=POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+            --from-literal=POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            --from-literal=POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            --from-literal=RDS_ENDPOINT=${{ env.RDS_ENDPOINT }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Apply Kubernetes Manifests
         run: |
           kubectl apply -f k8s/postgres-deployment.yaml
           kubectl apply -f k8s/postgres-service.yaml
