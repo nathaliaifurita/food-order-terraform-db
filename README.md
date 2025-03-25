@@ -108,12 +108,20 @@ variable "rds_arn" {
   description = "ARN do banco de dados RDS"
   default     = "arn:aws:rds:us-east-1:198212171636::db:rdsName"
 }
+
+
+variable "labRole" {
+  description = "ARN do LabRole utilizado para gerenciamento de recursos"
+  default     = "arn:aws:iam::198212171636:role/LabRole"
+}
 ````
 
 Passos:
-`principalArn`: Esse valor corresponde ao ARN da função IAM que o Terraform usará para acessar os recursos. Certifique-se de substituir o valor pelo ARN correto de sua conta AWS.
+1. `principalArn`: Esse valor corresponde ao ARN da função IAM que o Terraform usará para acessar os recursos. Certifique-se de substituir o valor pelo ARN correto de sua conta AWS.
 
-`rds_arn`: Esse valor corresponde ao ARN do banco de dados RDS. Troque o valor rdsName pelo nome do seu banco de dados RDS.
+2. `rds_arn`: Esse valor corresponde ao ARN do banco de dados RDS. Troque o valor rdsName pelo nome do seu banco de dados RDS.
+
+3. `labRole`: Esse valor é o ARN de uma função IAM usada para gerenciar os recursos de seu laboratório ou ambiente de testes. Certifique-se de substituir o valor pelo ARN correto da função que você deseja usar.
 
 Com essas variáveis configuradas, o Terraform poderá utilizar os recursos da AWS de forma segura, garantindo que sua infraestrutura seja criada e configurada corretamente.
 
