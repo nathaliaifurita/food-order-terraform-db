@@ -23,6 +23,7 @@ A infraestrutura é composta por:
 - PostgreSQL: Banco de dados relacional gerenciado na AWS (RDS)
 
 ## 📁 Estrutura
+```
 food-order-terraform-db
 ├── .github/workflows/  # Configuração dos pipelines de CI/CD
 │   ├── terraform.yml  # Workflow para provisionamento da infraestrutura AWS com Terraform
@@ -41,6 +42,7 @@ food-order-terraform-db
 ├── sg.tf  # Regras de segurança do Security Group
 ├── vars.tf  # Definição de variáveis do Terraform
 └── README.md  # Documentação do projeto
+```
 
 ## 🔧 Configuração e Deploy
 ### 📌 Pré-requisitos
