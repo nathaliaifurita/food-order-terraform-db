@@ -93,3 +93,27 @@ Caso sua aplicação use um banco de dados ou outra API, adicione as credenciais
     | `DB_NAME`                | Nome do Banco de Dados     |
     | `DB_USERNAME`            | Usuário do banco de dados  |
     | `DB_PASSWORD`            | Senha do banco de dados    |
+
+✅ Configuração das variáveis no vars.tf
+Você precisará ajustar as variáveis de configuração no arquivo `vars.tf`, incluindo o ARN do principal e o ARN do RDS. Essas variáveis são essenciais para autenticar e acessar os recursos da AWS.
+
+Exemplo de variáveis:
+````
+variable "principalArn" {
+  description = "ARN da função IAM principal para acessar recursos"
+  default     = "arn:aws:iam::198212171636:role/voclabs"
+}
+
+variable "rds_arn" {
+  description = "ARN do banco de dados RDS"
+  default     = "arn:aws:rds:us-east-1:198212171636::db:rdsName"
+}
+````
+
+Passos:
+`principalArn`: Esse valor corresponde ao ARN da função IAM que o Terraform usará para acessar os recursos. Certifique-se de substituir o valor pelo ARN correto de sua conta AWS.
+
+`rds_arn`: Esse valor corresponde ao ARN do banco de dados RDS. Troque o valor rdsName pelo nome do seu banco de dados RDS.
+
+Com essas variáveis configuradas, o Terraform poderá utilizar os recursos da AWS de forma segura, garantindo que sua infraestrutura seja criada e configurada corretamente.
+
