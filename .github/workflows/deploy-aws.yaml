@@ -1,4 +1,4 @@
-name: Deploy AWS Production - FOOD-ORDER-DB
+name: Deploy AWS Infra
 
 on:
   push:
@@ -8,13 +8,12 @@ on:
 
 env:
   AWS_REGION: us-east-1
-  CLUSTER_NAME: EKS-FOOD-ORDER-DB
-  RDS_INSTANCE: food-order-db
 
 jobs:
-  deploy-production:
-    name: Deploy EKS Food Order Production
+  deploy-infra:
+    name: Terraform Deploy
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -33,20 +32,28 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Login ECR
-        run: |
-          aws ecr get-login-password \
-          --region ${{ env.AWS_REGION }} | \
-          docker login --username AWS \
-          --password-stdin \
-          916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+      - name: Validate AWS Credentials
+        run: aws sts get-caller-identity
 
-      # - name: Validate AWS Credentials
-      #   run: aws sts get-caller-identity
+      - name: Terraform Setup
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: latest
+
+      - name: Terraform Init
+        run: terraform init -backend=true
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
 
       - name: Build and Push Docker Image
         run: |
           docker build -t postgres .
           docker tag postgres:latest 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
           docker push 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
-
