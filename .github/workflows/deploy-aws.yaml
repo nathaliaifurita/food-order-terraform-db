@@ -51,7 +51,7 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -input=false -auto-approve
 
       - name: Build and Push Docker Image
         run: |
