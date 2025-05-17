@@ -25,14 +25,21 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Verificar token
+        run: echo $AWS_SESSION_TOKEN
+
       - name: Validate AWS Credentials
         run: aws sts get-caller-identity
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: latest
-
+        # with:
+        #   terraform_version: latest
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+      
       - name: Terraform Init
         run: terraform init -backend=true
 
@@ -48,5 +55,5 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t postgres .
-          docker tag postgres:latest 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
-          docker push 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+          docker tag postgres:latest 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+          docker push 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
