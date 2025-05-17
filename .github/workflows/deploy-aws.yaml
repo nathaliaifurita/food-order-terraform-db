@@ -30,8 +30,11 @@ jobs:
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: latest
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
 
       - name: Terraform Init
         run: terraform init -backend=true
