@@ -55,5 +55,5 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build -t postgres .
-          docker tag postgres:latest 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
-          docker push 759212231558.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+          docker tag postgres:latest 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+          docker push 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
