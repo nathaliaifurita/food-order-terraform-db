@@ -28,7 +28,9 @@ resource "aws_vpc" "main_vpc" {
 }
 
 locals {
-  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : (length(data.aws_vpc.existing_vpc) > 0 ? data.aws_vpc.existing_vpc[0].id : "")
+  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : (
+    length(data.aws_vpc.existing_vpc) > 0 ? data.aws_vpc.existing_vpc[0].id : null
+  )
 }
 
 // Busca subnets públicas existentes
