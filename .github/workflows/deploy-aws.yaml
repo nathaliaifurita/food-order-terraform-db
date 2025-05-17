@@ -25,6 +25,9 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Verificar token
+        run: echo $AWS_SESSION_TOKEN
+
       - name: Validate AWS Credentials
         run: aws sts get-caller-identity
 
