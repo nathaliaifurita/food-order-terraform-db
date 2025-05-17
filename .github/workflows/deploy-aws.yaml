@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - fase_4e
 
 env:
   AWS_REGION: us-east-1
