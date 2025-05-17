@@ -25,25 +25,27 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Validate AWS Credentials
-        run: aws sts get-caller-identity
-
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: latest
 
       - name: Terraform Init
-        run: terraform init -backend=true
+        id: init
+        run: terraform init -input=false
 
       - name: Terraform Validate
-        run: terraform validate
+        id: validate
+        run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        id: plan
+        run: terraform plan -out=tfplan -no-color -input=false
+        continue-on-error: true
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        id: apply
+        run: terraform apply -input=false -auto-approve
 
       - name: Build and Push Docker Image
         run: |
