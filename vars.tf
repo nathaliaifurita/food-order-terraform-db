@@ -53,3 +53,4 @@ variable "db_password" {
   default     = "postgres"
   sensitive   = true
 }
+
