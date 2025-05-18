@@ -11,7 +11,7 @@ output "database_name" {
 }
 
 output "vpc_id" {
-  value = local.vpc_id
+  value = var.vpc_id
 }
 
 output "security_group_id" {
