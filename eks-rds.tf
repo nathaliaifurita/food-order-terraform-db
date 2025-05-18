@@ -16,7 +16,7 @@ resource "aws_db_instance" "rds_postgres" {
   db_subnet_group_name    = "rds-subnet-group"
 
   # Usa security group existente via data source
-  vpc_security_group_ids  = [data.aws_security_group.db_sg.id]
+  vpc_security_group_ids  = [aws_security_group.db_sg.id]
 
   publicly_accessible     = false
   backup_retention_period = 7
