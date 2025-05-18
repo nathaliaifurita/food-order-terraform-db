@@ -70,7 +70,7 @@ data "aws_subnet" "existing_private_subnets" {
 
   filter {
     name   = "vpc-id"
-    values = [locals.vpc_id]
+    values = [local.vpc_id]
   }
 
   filter {
