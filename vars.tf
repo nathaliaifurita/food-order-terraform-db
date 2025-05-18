@@ -3,11 +3,11 @@ variable "regionDefault" {
 }
 
 variable "projectName" {
-  default = "EKS-FOOD-ORDER-DB"
+  default = "RDS-FOOD-ORDER-DB"
 }
 
 variable "rds_postgres"{
-    default = "eks-rds-postgres"
+    default = "rds-postgres"
 }
 
 variable "rdsName" {
