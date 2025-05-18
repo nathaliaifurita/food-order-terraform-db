@@ -28,7 +28,9 @@ resource "aws_vpc" "main_vpc" {
 }
 
 locals {
-  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : (length(data.aws_vpc.existing_vpc) > 0 ? data.aws_vpc.existing_vpc[0].id : "")
+  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : (
+    length(data.aws_vpc.existing_vpc) > 0 ? data.aws_vpc.existing_vpc[0].id : null
+  )
 }
 
 // Busca subnets públicas existentes
@@ -57,8 +59,8 @@ resource "aws_subnet" "public_subnets" {
   tags = {
     Name        = "Public Subnet ${count.index + 1}"
     Environment = "public"
-    "kubernetes.io/cluster/${var.projectName}" = "shared"
-    "kubernetes.io/role/elb"                   = "1"
+//    "kubernetes.io/cluster/${var.projectName}" = "shared"
+//    "kubernetes.io/role/elb"                   = "1"
   }
 }
 
@@ -107,3 +109,5 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
     Environment = "production"
   }
 }
+
+
