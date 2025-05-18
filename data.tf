@@ -110,8 +110,4 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
   }
 }
 
-data "aws_security_group" "db_sg" {
-  name   = "SG-EKS-FOOD-ORDER-DB"
-  vpc_id = local.vpc_id
-}
 

@@ -1,4 +1,4 @@
-resource "aws_security_group" "sg" {
+data "aws_security_group" "sg" {
   name        = "SG-${var.projectName}"
   description = "Security Group do Food Order API e RDS"
   vpc_id      = local.vpc_id
