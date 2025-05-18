@@ -34,19 +34,19 @@ locals {
 }
 
 // Busca subnets públicas existentes
-data "aws_subnet" "existing_public_subnets" {
-  count = var.create_vpc ? 0 : 2
+//data "aws_subnet" "existing_public_subnets" {
+//  count = var.create_vpc ? 0 : 2
 
-  filter {
-    name   = "vpc-id"
-    values = [local.vpc_id]
-  }
+//  filter {
+//    name   = "vpc-id"
+//    values = [local.vpc_id]
+//  }
 
-  filter {
-    name   = "availability-zone"
-    values = [element(["us-east-1a", "us-east-1b"], count.index)]
-  }
-}
+//  filter {
+//   name   = "availability-zone"
+//    values = [element(["us-east-1a", "us-east-1b"], count.index)]
+//  }
+//}
 
 // Cria subnets públicas se necessário
 resource "aws_subnet" "public_subnets" {
@@ -55,29 +55,28 @@ resource "aws_subnet" "public_subnets" {
   cidr_block              = cidrsubnet("172.31.0.0/16", 4, count.index + 2)
   availability_zone       = element(["us-east-1a", "us-east-1b"], count.index)
   map_public_ip_on_launch = true
-
   tags = {
     Name        = "Public Subnet ${count.index + 1}"
     Environment = "public"
-//    "kubernetes.io/cluster/${var.projectName}" = "shared"
-//    "kubernetes.io/role/elb"                   = "1"
+    "kubernetes.io/cluster/${var.projectName}" = "shared"
+    "kubernetes.io/role/elb"                   = "1"
   }
 }
 
 // Busca subnets privadas existentes
-data "aws_subnet" "existing_private_subnets" {
-  count = var.create_vpc ? 0 : 2
+//data "aws_subnet" "existing_private_subnets" {
+//  count = var.create_vpc ? 0 : 2
+//
+//  filter {
+//    name   = "vpc-id"
+//    values = [local.vpc_id]
+//  }
 
-  filter {
-    name   = "vpc-id"
-    values = [local.vpc_id]
-  }
-
-  filter {
-    name   = "availability-zone"
-    values = [element(["us-east-1a", "us-east-1b"], count.index)]
-  }
-}
+//  filter {
+//    name   = "availability-zone"
+//    values = [element(["us-east-1a", "us-east-1b"], count.index)]
+//  }
+//}
 
 // Cria subnets privadas se necessário
 resource "aws_subnet" "private_subnets" {
