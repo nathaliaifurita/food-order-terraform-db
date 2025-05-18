@@ -34,19 +34,19 @@ locals {
 }
 
 // Busca subnets públicas existentes
-data "aws_subnet" "existing_public_subnets" {
-  count = var.create_vpc ? 0 : 2
+//data "aws_subnet" "existing_public_subnets" {
+//  count = var.create_vpc ? 0 : 2
+//
+//  filter {
+//    name   = "vpc-id"
+//    values = [local.vpc_id]
+//  }
 
-  filter {
-    name   = "vpc-id"
-    values = [local.vpc_id]
-  }
-
-  filter {
-    name   = "availability-zone"
-    values = [element(["us-east-1a", "us-east-1b"], count.index)]
-  }
-}
+//  filter {
+//    name   = "availability-zone"
+//    values = [element(["us-east-1a", "us-east-1b"], count.index)]
+//  }
+//}
 
 // Cria subnets públicas se necessário
 resource "aws_subnet" "public_subnets" {

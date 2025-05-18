@@ -14,10 +14,6 @@ variable "rdsName" {
   default = "food-order-db"
 }
 
-variable "eks_cluster"{
-  default = "EKS-FOOD-ORDER-DB"
-}
-
 variable "labRole" {
   default = "arn:aws:iam::916083420257:role/LabRole"
 }
@@ -32,10 +28,6 @@ variable "principalArn" {
 
 variable "rds_arn" {
   default = "arn:aws:rds:us-east-1:916083420257::db:rdsName"
-}
-
-variable "policyArn" {
-  default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
 
 variable "accessConfig" {
