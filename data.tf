@@ -34,19 +34,19 @@ locals {
 }
 
 // Busca subnets públicas existentes
-//data "aws_subnet" "existing_public_subnets" {
-//  count = var.create_vpc ? 0 : 2
-//
-//  filter {
-//    name   = "vpc-id"
-//    values = [local.vpc_id]
-//  }
+data "aws_subnet" "existing_public_subnets" {
+  count = var.create_vpc ? 0 : 2
 
-//  filter {
-//    name   = "availability-zone"
-//    values = [element(["us-east-1a", "us-east-1b"], count.index)]
-//  }
-//}
+  filter {
+    name   = "vpc-id"
+    values = [local.vpc_id]
+  }
+
+  filter {
+    name   = "availability-zone"
+    values = [element(["us-east-1a", "us-east-1b"], count.index)]
+  }
+}
 
 // Cria subnets públicas se necessário
 resource "aws_subnet" "public_subnets" {
@@ -89,8 +89,8 @@ resource "aws_subnet" "private_subnets" {
   tags = {
     Name        = "Private Subnet ${count.index + 1}"
     Environment = "private"
-    "kubernetes.io/cluster/${var.projectName}" = "shared"
-    "kubernetes.io/role/internal-elb"         = "1"
+//    "kubernetes.io/cluster/${var.projectName}" = "shared"
+//    "kubernetes.io/role/internal-elb"         = "1"
   }
 }
 
