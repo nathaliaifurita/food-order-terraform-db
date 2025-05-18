@@ -8,7 +8,7 @@ data "aws_vpc" "existing_vpc" {
   }
 }
 
-resource "aws_vpc" "main" {
+resource "aws_vpc" "main_vpc" {
   count      = var.create_vpc ? 1 : 0
   cidr_block = var.vpc_cidr_block
 
@@ -18,7 +18,7 @@ resource "aws_vpc" "main" {
 }
 
 locals {
-  vpc_id = var.create_vpc ? aws_vpc.main[0].id : data.aws_vpc.existing_vpc[0].id
+  vpc_id = var.create_vpc ? aws_vpc.main_vpc[0].id : data.aws_vpc.existing_vpc[0].id
 }
 
 // Subnets públicas
