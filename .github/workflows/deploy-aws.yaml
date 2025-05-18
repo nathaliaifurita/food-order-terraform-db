@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - fase_4e
 
 env:
   AWS_REGION: us-east-1
@@ -50,10 +51,10 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan
+        run: terraform apply -input=false -auto-approve
 
-      - name: Build and Push Docker Image
+      - name: Build Docker Image
         run: |
           docker build -t postgres .
           docker tag postgres:latest 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
-          docker push 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+         # docker push 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
