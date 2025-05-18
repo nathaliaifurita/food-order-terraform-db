@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg" {
   name        = "SG-${var.projectName}"
   description = "Security Group do Food Order API e RDS"
-  vpc_id      = var.vpc_id
+  vpc_id      = local.vpc_id
 
   # Permitir tráfego do API Gateway para o Load Balancer
   ingress {

@@ -39,7 +39,7 @@ data "aws_subnet" "existing_public_subnets" {
 
   filter {
     name   = "vpc-id"
-    values = [var.vpc_id]
+    values = [local.vpc_id]
   }
 
   filter {
@@ -70,7 +70,7 @@ data "aws_subnet" "existing_private_subnets" {
 
   filter {
     name   = "vpc-id"
-    values = [var.vpc_id]
+    values = [locals.vpc_id]
   }
 
   filter {
@@ -82,7 +82,7 @@ data "aws_subnet" "existing_private_subnets" {
 // Cria subnets privadas se necessário
 resource "aws_subnet" "private_subnets" {
   count             = var.create_vpc ? 2 : 0
-  vpc_id            = var.vpc_id
+  vpc_id            = local.vpc_id
   cidr_block        = cidrsubnet("172.31.0.0/16", 4, count.index)
   availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
 
@@ -112,6 +112,6 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
 data "aws_security_group" "db_sg" {
   name   = "SG-EKS-FOOD-ORDER-DB"
-  vpc_id = var.vpc_id
+  vpc_id = local.vpc_id
 }
 
