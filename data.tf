@@ -93,10 +93,10 @@ resource "aws_subnet" "private_subnets" {
   }
 }
 
-locals {
-  private_subnet_ids = var.create_vpc ? aws_subnet.private_subnets[*].id : (length(data.aws_subnet.existing_private_subnets) > 0 ? data.aws_subnet.existing_private_subnets[*].id : [])
-  public_subnet_ids  = var.create_vpc ? aws_subnet.public_subnets[*].id : (length(data.aws_subnet.existing_public_subnets) > 0 ? data.aws_subnet.existing_public_subnets[*].id : [])
-}
+//locals {
+//  private_subnet_ids = var.create_vpc ? aws_subnet.private_subnets[*].id : (length(data.aws_subnet.existing_private_subnets) > 0 ? data.aws_subnet.existing_private_subnets[*].id : [])
+//  public_subnet_ids  = var.create_vpc ? aws_subnet.public_subnets[*].id : (length(data.aws_subnet.existing_public_subnets) > 0 ? data.aws_subnet.existing_public_subnets[*].id : [])
+//}
 
 // Grupo de subnets para o RDS
 resource "aws_db_subnet_group" "rds_subnet_group" {
