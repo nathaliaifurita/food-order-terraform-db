@@ -109,3 +109,9 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
     Environment = "production"
   }
 }
+
+data "aws_security_group" "db_sg" {
+  name   = "SG-EKS-FOOD-ORDER-DB"
+  vpc_id = var.vpc_id
+}
+

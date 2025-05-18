@@ -53,7 +53,7 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -input=false -auto-approve
 
-      - name: Build and Push Docker Image
+      - name: Build Docker Image
         run: |
           docker build -t postgres .
           docker tag postgres:latest 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
