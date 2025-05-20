@@ -3,7 +3,7 @@ variable "regionDefault" {
 }
 
 variable "projectName" {
-  default = "FOOD-ORDER"
+  default = "FoodOrder"
 }
 
 variable "rds_postgres"{

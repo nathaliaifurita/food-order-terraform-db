@@ -23,7 +23,7 @@ variable "availability_zones" {
 }
 
 variable "projectName" {
-  description = "FOOD-ORDER"
+  description = "FoodOrder"
   type        = string
 }
 
