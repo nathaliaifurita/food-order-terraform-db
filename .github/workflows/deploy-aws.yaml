@@ -13,7 +13,6 @@ jobs:
   deploy-infra:
     name: Terraform Deploy
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
