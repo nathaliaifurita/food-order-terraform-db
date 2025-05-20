@@ -4,7 +4,7 @@ data "aws_vpc" "existing_vpc" {
 
   filter {
     name   = "cidr-block"
-    values = [var.vpc_cidr_block]
+    values = ["${var.project_name}-vpc"]
   }
 }
 
