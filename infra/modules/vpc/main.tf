@@ -4,7 +4,7 @@ data "aws_vpc" "existing_vpc" {
 
   filter {
     name   = "cidr-block"
-    values = ["${var.project_name}-vpc"]
+    values = ["${var.projectName}-vpc"]
   }
 }
 
@@ -13,7 +13,7 @@ resource "aws_vpc" "main_vpc" {
   cidr_block = var.vpc_cidr_block
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-vpc"
+    Name = "${var.projectName}-vpc"
   })
 }
 
@@ -44,7 +44,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-public-subnet-${count.index + 1}"
+    Name = "${var.projectName}-public-subnet-${count.index + 1}"
   })
 }
 
@@ -70,7 +70,7 @@ resource "aws_subnet" "private" {
   availability_zone = element(var.availability_zones, count.index)
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-private-subnet-${count.index + 1}"
+    Name = "${var.projectName}-private-subnet-${count.index + 1}"
   })
 }
 
@@ -81,13 +81,13 @@ locals {
 
 resource "aws_security_group" "main_sg" {
   count  = var.create_security_group ? 1 : 0
-  name   = "${var.project_name}-main-sg"
+  name   = "${var.projectName}-main-sg"
   vpc_id = local.vpc_id
 
-  description = "Security group for ${var.project_name}"
+  description = "Security group for ${var.projectName}"
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-sg"
+    Name = "${var.projectName}-sg"
   })
 }
 
@@ -117,17 +117,17 @@ locals {
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
   count      = var.create_rds ? 1 : 0
-  name       = "${var.project_name}-rds-subnet-group"
+  name       = "${var.projectName}-rds-subnet-group"
   subnet_ids = local.private_subnet_ids
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-rds-subnet-group"
+    Name = "${var.projectName}-rds-subnet-group"
   })
 }
 
 resource "aws_db_instance" "rds_instance" {
   count                   = var.create_rds ? 1 : 0
-  identifier              = "${var.project_name}-rds"
+  identifier              = "${var.projectName}-rds"
   instance_class          = var.rds_instance_class
   allocated_storage       = var.rds_allocated_storage
   engine                  = var.rds_engine
@@ -145,7 +145,7 @@ resource "aws_db_instance" "rds_instance" {
   apply_immediately       = var.rds_apply_immediately
 
   tags = merge(var.tags, {
-    Name = "${var.project_name}-rds"
+    Name = "${var.projectName}-rds"
   })
 }
 
