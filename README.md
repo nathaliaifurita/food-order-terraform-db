@@ -1,6 +1,5 @@
-# Projeto de Infraestrutura Kubernetes e Banco de Dados Gerenciáveis com Terraform
-
-## 📌 Visão Geral
+# :hamburger: Food Order - Terraform RDS Infrastructure
+![FoodOrder](foodorder.png?raw=true "FoodOrder")
 
 Este repositório contém a configuração de infraestrutura para Kubernetes e banco de dados gerenciáveis utilizando Terraform. O projeto segue as melhores práticas de CI/CD, garantindo automação e segurança no deploy dos recursos.
 
@@ -9,7 +8,6 @@ Este repositório contém a configuração de infraestrutura para Kubernetes e b
 A infraestrutura é composta por:
 - Cluster Kubernetes (EKS): Provisionado via Terraform para orquestração de contêineres.
 - Banco de Dados Gerenciado (RDS): Configurado como código para persistência de dados.
-- API Gateway + AWS Lambda: Implementação de autenticação de clientes via CPF.
 - Deploy Automatizado: Utilizando GitHub Actions com proteção de branches.
 
 
@@ -18,54 +16,24 @@ A infraestrutura é composta por:
 - Terraform: Para provisionamento da infraestrutura.
 - Kubernetes: Para orquestração de contêineres.
 - GitHub Actions: Para CI/CD automatizado.
-- AWS Lambda (Elixir): Para autenticação via CPF.
-- API Gateway: Para intermediar requisições entre clientes e backend.
 - PostgreSQL: Banco de dados relacional gerenciado na AWS (RDS).
 
 ## 📁 Estrutura do Repositório
 ```
 food-order-terraform-db
 ├── .github/workflows/  # Configuração dos pipelines de CI/CD
-│   ├── terraform.yml  # Workflow para provisionamento da infraestrutura AWS com Terraform
-├── k8s/
-│   ├── postgres-deployment.yaml  # Definição do deployment do PostgreSQL no Kubernetes
-│   ├── postgres-service.yaml  # Serviço para expor o banco de dados PostgreSQL
-├── data.tf  # Definições de dados e recursos compartilhados
-├── eks-access-entry.tf  # Configuração de regras de acesso ao EKS
-├── eks-access-policy.tf  # Políticas de acesso e permissões para o EKS
-├── eks-cluster.tf  # Configuração do cluster EKS na AWS
-├── eks-rds.tf  # Configuração do banco de dados gerenciado (RDS)
+│   ├── deploy-aws.yaml  # Workflow para provisionamento da infraestrutura AWS com Terraform
+├── infra/
+|   ├── modules/vpc
+|   |   ├── main.tf 
+|   |   ├── outputs.tf # Saídas do VPC, SG e RDS para referência
+|   |   ├── variables.tf # Definição de variáveis da VPC, SG e RDS
+├── main.tf  # Configuração que define a criação ou não da VPC (caso já tenha sido criada, não cria novamente)
 ├── outputs.tf  # Saídas do Terraform para referência
 ├── provider.tf  # Configuração do provider AWS no Terraform
-├── sg.tf  # Regras de segurança do Security Group
 ├── vars.tf  # Definição de variáveis do Terraform
 └── README.md  # Documentação do projeto
 ```
-
-## 🔧 Configuração e Deploy
-### 📌 Pré-requisitos
-- Terraform instalado
-- AWS CLI configurado
-- kubectl instalado
-
-## 🚀 Passos para Deploy
-
-1. Clone o repositório: 
-```git clone https://github.com/nathaliaifurita/food-order-terraform-db.git```
-```cd food-order-terraform-db```
-
-2. Inicialize o Terraform:
-```terraform init```
-
-3. Valide e aplique a infraestrutura:
-```terraform plan```
-```terraform apply```
-
-4. Configure o contexto do Kubernetes:
-```aws eks update-kubeconfig --name nome-do-cluster --region regiao```
-
-5. Implante aplicações no cluster:
-```kubectl apply -f k8s/```
 
 ## 🔑 Configuração do Secrets no GitHub
 
@@ -75,7 +43,7 @@ food-order-terraform-db
 3. No menu lateral, clique em Secrets and variables > Actions.
 4. Clique em New repository secret.
 
-#### 2️⃣ Adicione as Secrets necessárias
+### 2️⃣ Adicione as Secrets necessárias
 ✅ Para autenticação na AWS
 Essas credenciais são usadas pelo Terraform e pelo GitHub Actions para acessar a AWS.
 
@@ -121,7 +89,9 @@ Passos:
 
 2. `rds_arn`: Esse valor corresponde ao ARN do banco de dados RDS. Troque o valor rdsName pelo nome do seu banco de dados RDS.
 
-3. `labRole`: Esse valor é o ARN de uma função IAM usada para gerenciar os recursos de seu laboratório ou ambiente de testes. Certifique-se de substituir o valor pelo ARN correto da função que você deseja usar.
-
 Com essas variáveis configuradas, o Terraform poderá utilizar os recursos da AWS de forma segura, garantindo que sua infraestrutura seja criada e configurada corretamente.
 
+
+### :busts_in_silhouette: Autores
+| [<img loading="lazy" src="https://avatars.githubusercontent.com/u/96452759?v=4" width=115><br><sub>Robson Vilaça - RM358345</sub>](https://github.com/vilacalima) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/16946021?v=4" width=115><br><sub>Diego Gomes - RM358549</sub>](https://github.com/diegogl12) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/8690168?v=4" width=115><br><sub>Nathalia Freire - RM359533</sub>](https://github.com/nathaliaifurita) |  [<img loading="lazy" src="https://avatars.githubusercontent.com/u/43392619?v=4" width=115><br><sub>Rafael Kamada - RM359345</sub>](https://github.com/RafaelKamada) |
+| :---: | :---: | :---: | :---: |
