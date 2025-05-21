@@ -81,6 +81,6 @@ jobs:
 
       - name: Build Docker Image
         run: |
-         docker build -t nathaliaifurita/food-order-terraform-db .
+         docker build -t postgres .
          docker tag postgres:latest 277701933410.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/nathaliaifurita/food-order-terraform-db:latest
          docker push 277701933410.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/nathaliaifurita/food-order-terraform-db:latest
