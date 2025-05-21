@@ -5,6 +5,10 @@ on:
     branches:
       - main
       - fase_4i
+  pull_request:
+    branches:
+      - main
+      - fase_4i
 
 env:
   AWS_REGION: us-east-1
