@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
-      - fase_4h
+
+  pull_request:
+    branches:
+      - main
 
 env:
   AWS_REGION: us-east-1
@@ -13,7 +16,6 @@ jobs:
   deploy-infra:
     name: Terraform Deploy
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -34,27 +36,50 @@ jobs:
 
       - name: Terraform Setup
         uses: hashicorp/setup-terraform@v3
-        # with:
-        #   terraform_version: latest
+        with:
+          terraform_version: latest
+
       - name: Terraform Format
         id: fmt
         run: terraform fmt -check
         continue-on-error: true
       
       - name: Terraform Init
+        id: init
         run: terraform init -backend=true
 
       - name: Terraform Validate
-        run: terraform validate
+        id: validate
+        run: terraform validate -no-color
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        id: plan
+        run: terraform plan -out=tfplan -no-color
+        continue-on-error: true
 
       - name: Terraform Apply
-        run: terraform apply -input=false -auto-approve
+        id: apply
+        run: terraform apply -auto-approve
+
+      - name: Login ECR
+        run: |
+          aws ecr get-login-password \
+          --region ${{ env.AWS_REGION }} | \
+          docker login --username AWS \
+          --password-stdin \
+          277701933410.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+
+      - name: Garantir que o repositório ECR existe
+        run: |
+          aws ecr describe-repositories \
+          --repository-names nathaliaifurita/food-order-terraform-db \
+          --region us-east-1 || \
+          aws ecr create-repository \
+          --repository-name nathaliaifurita/food-order-terraform-db \
+          --region us-east-1
 
       - name: Build Docker Image
         run: |
-          docker build -t postgres .
-          docker tag postgres:latest 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
-         # docker push 916083420257.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/postgres:latest
+         docker build -t postgres .
+         docker tag postgres:latest 277701933410.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/nathaliaifurita/food-order-terraform-db:latest
+         docker push 277701933410.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/nathaliaifurita/food-order-terraform-db:latest

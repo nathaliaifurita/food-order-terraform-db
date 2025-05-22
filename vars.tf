@@ -3,7 +3,7 @@ variable "regionDefault" {
 }
 
 variable "projectName" {
-  default = "RDS-FOOD-ORDER-DB"
+  default = "FoodOrder"
 }
 
 variable "rds_postgres"{
@@ -15,7 +15,7 @@ variable "rdsName" {
 }
 
 variable "labRole" {
-  default = "arn:aws:iam::916083420257:role/LabRole"
+  default = "arn:aws:iam::277701933410:role/LabRole"
 }
 
 variable "instanceType" {
@@ -23,17 +23,16 @@ variable "instanceType" {
 }
 
 variable "principalArn" {
-  default = "arn:aws:iam::916083420257:role/voclabs"
+  default = "arn:aws:iam::277701933410:role/voclabs"
 }
 
 variable "rds_arn" {
-  default = "arn:aws:rds:us-east-1:916083420257::db:rdsName"
+  default = "arn:aws:rds:us-east-1:277701933410::db:rdsName"
 }
 
 variable "accessConfig" {
   default = "API_AND_CONFIG_MAP"
 }
-
 
 variable "db_name" {
   description = "Nome do banco de dados"

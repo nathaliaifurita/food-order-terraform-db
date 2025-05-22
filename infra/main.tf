@@ -3,7 +3,7 @@ module "vpc" {
   create_vpc             = true
   create_subnets         = true
   create_security_group  = true
-  project_name           = "my-app"
+  projectName           = "FOOD-ORDER"
 
   availability_zones = ["us-east-1a", "us-east-1b"]
 
